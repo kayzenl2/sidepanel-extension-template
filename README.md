@@ -12,6 +12,12 @@ A modern browser extension template with sidepanel support, built with WXT + Tai
 - 🔧 **TypeScript** - Full type safety and developer experience
 - 🎯 **Modern Development** - Hot reload, modern build tools
 
+## Demo
+
+![Extension Demo](public/demo.mp4)
+
+*Watch how the sidepanel extension works: click the extension icon to open the sidepanel interface.*
+
 ## Getting Started
 
 ### Prerequisites
@@ -78,10 +84,10 @@ This template is pre-configured for shadcn/ui. To add components:
 
 ```bash
 # Example: Add a button component
-npx shadcn@latest add button
+pnpm dlx shadcn@latest add button
 
 # Example: Add a dialog component
-npx shadcn@latest add dialog
+pnpm dlx shadcn@latest add dialog
 ```
 
 The components will be automatically added to `components/ui/` with proper styling.
@@ -89,20 +95,30 @@ The components will be automatically added to `components/ui/` with proper styli
 ## Development Commands
 
 ```bash
-# Development mode with hot reload
+# Development mode with hot reload (Chrome by default)
 pnpm dev
 
-# Development for Firefox
+# Development for specific browsers
+pnpm dev:chrome
 pnpm dev:firefox
+pnpm dev:edge
+pnpm dev:safari
 
-# Build for production
+# Build for production (Chrome by default)
 pnpm build
 
-# Build for Firefox
+# Build for specific browsers
+pnpm build:chrome
 pnpm build:firefox
+pnpm build:edge
+pnpm build:safari
 
-# Create extension zip file
+# Create extension zip files
 pnpm zip
+pnpm zip:chrome
+pnpm zip:firefox
+pnpm zip:edge
+pnpm zip:safari
 
 # Type checking
 pnpm compile
@@ -130,10 +146,13 @@ pnpm compile
 
 ## Browser Support
 
-- ✅ Chrome/Chromium (Manifest V3)
-- ✅ Firefox (Manifest V2/V3)
-- ✅ Edge
-- ✅ Other Chromium-based browsers
+This extension supports all major browsers through WXT's universal browser compatibility:
+
+- ✅ **Chrome** (Manifest V3) - `pnpm dev:chrome`, `pnpm build:chrome`
+- ✅ **Firefox** (Manifest V2) - `pnpm dev:firefox`, `pnpm build:firefox`
+- ✅ **Edge** (Manifest V3) - `pnpm dev:edge`, `pnpm build:edge`
+- ✅ **Safari** (Manifest V2) - `pnpm dev:safari`, `pnpm build:safari`
+- ✅ **Other Chromium-based browsers** (Opera, Brave, etc.)
 
 ## License
 
