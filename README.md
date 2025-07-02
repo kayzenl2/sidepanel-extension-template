@@ -14,7 +14,7 @@ A modern browser extension template with sidepanel support, built with WXT + Tai
 
 ## Demo
 
-![Extension Demo](public/demo.mp4)
+![Extension Demo](public/demo.gif)
 
 *Watch how the sidepanel extension works: click the extension icon to open the sidepanel interface.*
 
