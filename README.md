@@ -9,6 +9,8 @@ A modern browser extension template with sidepanel support, built with WXT + Tai
 - ⚛️ **React** - Modern UI framework with TypeScript support
 - 🎨 **Tailwind CSS 4.0** - Latest utility-first CSS framework
 - 🛠️ **shadcn/ui Ready** - Pre-configured for beautiful, accessible React components
+- 🌙 **Theme Management** - System/Light/Dark theme support
+- 💾 **Local Storage** - Persistent data storage with WXT Storage API
 - ⚙️ **Runtime Configuration** - Built-in runtime config system with type safety
 - 🔧 **TypeScript** - Full type safety and developer experience
 - 🎯 **Modern Development** - Hot reload, modern build tools
@@ -54,7 +56,7 @@ A modern browser extension template with sidepanel support, built with WXT + Tai
 
 1. Click the extension icon in the browser toolbar
 2. The sidepanel will open on the right side
-3. Navigate through the template tabs (Home, Profile, Settings)
+3. Start customizing the template for your needs
 
 ## Project Structure
 
@@ -68,10 +70,12 @@ sidepanel-extension-template/
 │       ├── index.html     # HTML template
 │       └── main.tsx       # React entry point
 ├── components/            # React components
-│   └── ui/                # shadcn/ui components (empty, ready to add)
+│   └── ui/                # shadcn/ui components
 ├── lib/                   # Utility functions
 │   └── utils.ts           # Common utilities
 ├── hooks/                 # Custom React hooks
+│   ├── use-theme.ts       # Theme management hook
+│   └── use-settings.ts    # Settings storage hook
 ├── assets/                # Static assets
 ├── public/                # Public assets (icons, etc.)
 ├── app.config.ts          # Runtime configuration

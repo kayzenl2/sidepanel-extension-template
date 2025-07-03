@@ -14,15 +14,53 @@ import { ScrollArea } from '@/components/ui/scroll-area'
 import { Separator } from '@/components/ui/separator'
 import { Switch } from '@/components/ui/switch'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { Calendar, Heart, House, Mail, Settings, User } from 'lucide-react'
-import { useState } from 'react'
+import { useSettings } from '@/hooks/use-settings'
+import { useTheme } from '@/hooks/use-theme'
+import {
+  Calendar,
+  Heart,
+  House,
+  Mail,
+  Monitor,
+  Moon,
+  Settings,
+  Sun,
+  User
+} from 'lucide-react'
 
 function App() {
-  const [notifications, setNotifications] = useState(true)
   const config = useAppConfig()
+  const { appearance, system, loading, updateAppearance, updateSystem, resetSettings } = useSettings()
+  const { resolvedTheme, setTheme } = useTheme({
+    theme: appearance.theme,
+    onThemeChange: (theme) => updateAppearance({ theme })
+  })
+
+  const themeOptions = [
+    { value: 'system', label: 'System', icon: Monitor },
+    { value: 'light', label: 'Light', icon: Sun },
+    { value: 'dark', label: 'Dark', icon: Moon }
+  ] as const
+
+  const handleSyncIntervalChange = (value: string) => {
+    const interval = parseInt(value)
+    if (!isNaN(interval) && interval > 0) {
+      updateSystem({ syncInterval: interval })
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex flex-col h-screen bg-background">
+        <div className="flex-1 flex items-center justify-center">
+          <p className="text-muted-foreground">Loading...</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
-    <div className="flex flex-col h-screen">
+    <div className="flex flex-col h-screen bg-background">
       {/* Header */}
       <div className="border-b px-4 py-3">
         <div className="flex items-center gap-3">
@@ -126,18 +164,18 @@ function App() {
                 <div className="text-center space-y-4">
                   <Avatar className="h-20 w-20 mx-auto ring-2 ring-offset-2 ring-primary/10">
                     <AvatarImage
-                      src="/placeholder-avatar.jpg"
+                      src="https://pbs.twimg.com/profile_images/1593304942210478080/TUYae5z7_400x400.jpg"
                       alt="User Avatar"
                     />
                     <AvatarFallback className="text-lg font-semibold">
-                      EL
+                      SC
                     </AvatarFallback>
                   </Avatar>
                   <div className="space-y-2">
-                    <h2 className="text-xl font-semibold">Evan Long</h2>
+                    <h2 className="text-xl font-semibold">Shadcn</h2>
                     <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                       <Mail className="h-4 w-4" />
-                      <span>evan@example.com</span>
+                      <span>shadcn@example.com</span>
                     </div>
                     <Badge variant="secondary" className="font-medium">
                       Premium User
@@ -196,6 +234,40 @@ function App() {
           <TabsContent value="settings" className="flex-1 overflow-hidden">
             <ScrollArea className="h-full">
               <div className="space-y-6 p-4">
+                {/* Appearance Settings */}
+                <div className="space-y-4">
+                  <div>
+                    <h3 className="text-lg font-semibold">Appearance</h3>
+                    <p className="text-xs text-muted-foreground mb-4">
+                      Customize the look and feel
+                    </p>
+                  </div>
+
+                  <div className="space-y-3">
+                    <Label className="text-sm font-medium">Theme</Label>
+                    <div className="grid grid-cols-3 gap-2">
+                      {themeOptions.map((option) => {
+                        const Icon = option.icon
+                        const isActive = appearance.theme === option.value
+                        return (
+                          <Button
+                            key={option.value}
+                            variant={isActive ? "default" : "outline"}
+                            size="sm"
+                            onClick={() => setTheme(option.value)}
+                            className="flex flex-col gap-1 h-auto py-3"
+                          >
+                            <Icon className="h-4 w-4" />
+                            <span className="text-xs">{option.label}</span>
+                          </Button>
+                        )
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                <Separator />
+
                 {/* System Settings */}
                 <div className="space-y-4">
                   <div>
@@ -215,8 +287,8 @@ function App() {
                       </p>
                     </div>
                     <Switch
-                      checked={notifications}
-                      onCheckedChange={setNotifications}
+                      checked={system.notifications}
+                      onCheckedChange={(checked) => updateSystem({ notifications: checked })}
                     />
                   </div>
 
@@ -233,8 +305,10 @@ function App() {
                     </div>
                     <Input
                       type="number"
-                      placeholder="15"
+                      value={system.syncInterval}
+                      onChange={(e) => handleSyncIntervalChange(e.target.value)}
                       className="w-20 h-8 text-xs"
+                      min="1"
                     />
                   </div>
                 </div>
@@ -251,22 +325,6 @@ function App() {
                       Values from app.config.ts (read-only)
                     </p>
                   </div>
-
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <Label className="text-sm font-medium">
-                        Config Theme
-                      </Label>
-                      <p className="text-xs text-muted-foreground">
-                        Theme from runtime config
-                      </p>
-                    </div>
-                    <Badge variant="outline" className="text-xs">
-                      {config.theme}
-                    </Badge>
-                  </div>
-
-                  <Separator />
 
                   <div className="flex items-center justify-between">
                     <div>
@@ -307,7 +365,7 @@ function App() {
                 <Separator />
 
                 <div className="flex gap-2">
-                  <Button variant="outline" className="flex-1">
+                  <Button variant="outline" className="flex-1" onClick={resetSettings}>
                     Reset
                   </Button>
                   <Button className="flex-1">Save Changes</Button>
