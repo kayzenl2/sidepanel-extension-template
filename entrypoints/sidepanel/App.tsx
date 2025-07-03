@@ -30,7 +30,7 @@ import {
 
 function App() {
   const config = useAppConfig()
-  const { appearance, system, loading, updateAppearance, updateSystem, resetSettings } = useSettings()
+  const { appearance, system, ui, loading, updateAppearance, updateSystem, updateUI, resetSettings } = useSettings()
   const { resolvedTheme, setTheme } = useTheme({
     theme: appearance.theme,
     onThemeChange: (theme) => updateAppearance({ theme })
@@ -47,6 +47,10 @@ function App() {
     if (!isNaN(interval) && interval > 0) {
       updateSystem({ syncInterval: interval })
     }
+  }
+
+  const handleTabChange = (value: string) => {
+    updateUI({ activeTab: value })
   }
 
   if (loading) {
@@ -78,7 +82,7 @@ function App() {
 
       {/* Content */}
       <div className="flex-1 overflow-hidden">
-        <Tabs defaultValue="home" className="h-full flex flex-col gap-0">
+        <Tabs value={ui.activeTab} onValueChange={handleTabChange} className="h-full flex flex-col gap-0">
           <TabsList className="h-auto rounded-none border-b bg-transparent p-0 w-full">
             <TabsTrigger
               value="home"
