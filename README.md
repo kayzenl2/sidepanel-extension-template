@@ -9,6 +9,7 @@ A modern browser extension template with sidepanel support, built with WXT + Tai
 - ⚛️ **React** - Modern UI framework with TypeScript support
 - 🎨 **Tailwind CSS 4.0** - Latest utility-first CSS framework
 - 🛠️ **shadcn/ui Ready** - Pre-configured for beautiful, accessible React components
+- ⚙️ **Runtime Configuration** - Built-in runtime config system with type safety
 - 🔧 **TypeScript** - Full type safety and developer experience
 - 🎯 **Modern Development** - Hot reload, modern build tools
 
@@ -73,6 +74,7 @@ sidepanel-extension-template/
 ├── hooks/                 # Custom React hooks
 ├── assets/                # Static assets
 ├── public/                # Public assets (icons, etc.)
+├── app.config.ts          # Runtime configuration
 ├── components.json        # shadcn/ui configuration
 ├── wxt.config.ts          # WXT configuration
 └── package.json           # Dependencies and scripts
